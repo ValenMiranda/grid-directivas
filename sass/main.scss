@@ -1,0 +1,54 @@
+/* Resetearemos el margin y padding
+y crearemos nuestro container*/
+*{
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.container{
+	width: 100%;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+/*Crearemos una clase que itulizaremos
+para darle estilos a nuestro row,
+añadiendolos con @extend*/
+.templateRow{
+	content:"";
+	display: table;
+}
+
+.row{
+	&:before{
+		@extend .templateRow;
+	}
+	&:after{
+		@extend .templateRow;
+		clear: both;
+	}
+}
+
+/*Luego crearemos estilos para todas las clases
+que contengan "col-", es decir, afectarán a todas
+nuestras columnas*/
+[class*="col-"]{
+	min-height: 7px;
+	padding: 12px;
+	float: left;
+}
+
+/*Crearemos una funcion con la que calculamos
+el ancho correspondiente de cada columna de nuestro grid.
+percentage nos ayudará a convertir en porcentaje la cifra
+devuelta por la operación*/
+@function anchoDeColumnas($i){
+	@return percentage(($i/12));
+}
+
+@for $i from 1 through 12{
+	.col-#{$i}{
+		width: anchoDeColumnas($i);
+	}
+}
